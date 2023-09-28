@@ -27,19 +27,38 @@ void ACombatManager::Tick(float DeltaTime)
 
 void ACombatManager::fight() 
 {
-	if (dieRoll(50)) {
-		//#1 is first
-		attack(Combatant1, Combatant2);
-		checkIfDead();
-		attack(Combatant2, Combatant1);
-		checkIfDead();
+	while (!checkIfDead()) {
+		if (dieRoll(50)) {
+			//#1 is first
+			attack(Combatant1, Combatant2);
+			if (checkIfDead()) {
+				break;
+			}
+			attack(Combatant2, Combatant1);
+			if (checkIfDead()) {
+				break;
+			}
+		}
+		else {
+			//#2 is first
+			attack(Combatant2, Combatant1);
+			if (checkIfDead()) {
+				break;
+			}			
+			attack(Combatant1, Combatant2);
+			if (checkIfDead()) {
+				break;
+			}
+		}
 	}
-	else {
-		//#2 is first
-		attack(Combatant2, Combatant1);
-		checkIfDead();
-		attack(Combatant1, Combatant2);
-		checkIfDead();
+} 
+
+void ACombatManager::fightABunch(int32 fightCount)
+{
+	for (int i = 0; i < fightCount; i++) {
+		Combatant1->resetHp();
+		Combatant2->resetHp();
+		fight();
 	}
 }
 
@@ -49,26 +68,47 @@ void ACombatManager::attack(ACombatant* attacker, ACombatant* defender)
 			//you hit
 			if (dieRoll(attacker->getCritChance())) {
 				//you crit
-				defender->setHp(defender->getHp() - (attacker->getCritEffect())- defender->getDefence());
+				attackOccurred(attacker, true, true, ((attacker->getCritEffect()) - defender->getDefence()));
+				defender->setHp(defender->getHp() - (attacker->getCritEffect()) - defender->getDefence());
 			}
 			else {
 				//you dont crit
-				defender->setHp(defender->getHp() - (attacker->getDamage()- defender->getDefence()));
+				attackOccurred(attacker, true, false, ((attacker->getAtkEffect()) - defender->getDefence()));
+				defender->setHp(defender->getHp() - (attacker->getAtkEffect() - defender->getDefence()));
 			}
 		}
 		else {
 			//you miss
+			attackOccurred(attacker, false, false, 0);
+
 		}
 
 
 }
 
-bool ACombatManager::checkIfDead() {
-	if (Combatant1->getHp <= 0 || Combatant2->getHP <= 0) {
+bool ACombatManager::dieRoll(int32 odds) {
+	int roll = FMath::RandRange(1, 100);
+	if (roll <= odds) {
 		return true;
 	}
 	else {
 		return false;
 	}
 }
+
+bool ACombatManager::checkIfDead() {
+	if (Combatant1->getHp() <= 0) {
+		characterDied(Combatant1);
+		return true;
+	}
+	else if (Combatant2->getHp() <= 0) {
+		characterDied(Combatant2);
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+
 

@@ -52,3 +52,7 @@ void ACombatant::setHp(int32 newHp) {
 	hp = newHp;
 }
 
+void ACombatant::resetHp() {
+	hp = maxHp;
+}
+

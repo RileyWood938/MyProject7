@@ -14,13 +14,15 @@ class MYPROJECT7_API ACombatant : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ACombatant();
-	UFUNCTION(BlueprintCallable) int32 getHp();
-	UFUNCTION(BlueprintCallable) int32 getAtkEffect();
-	UFUNCTION(BlueprintCallable) int32 getDefence();
-	UFUNCTION(BlueprintCallable) int32 getDodgeChance();
-	UFUNCTION(BlueprintCallable) int32 getCritChance();
-	UFUNCTION(BlueprintCallable) int32 getCritEffect();
+	UFUNCTION() int32 getHp();
+	UFUNCTION() int32 getAtkEffect();
+	UFUNCTION() int32 getDefence();
+	UFUNCTION() int32 getDodgeChance();
+	UFUNCTION() int32 getCritChance();
+	UFUNCTION() int32 getCritEffect();
 	UFUNCTION() void setHp(int32 newHP);
+	UFUNCTION() void resetHp();
+
 
 
 protected:
@@ -32,8 +34,7 @@ protected:
 	UPROPERTY(EditAnywhere) int32 dodgeChance;
 	UPROPERTY(EditAnywhere) int32 critChance;
 	UPROPERTY(EditAnywhere) int32 critEffect;
-
-
+	UPROPERTY(EditAnywhere) int32 maxHp;
 
 
 

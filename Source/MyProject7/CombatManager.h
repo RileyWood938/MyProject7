@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Combatant.h"
 #include "CombatManager.generated.h"
+
 
 UCLASS()
 class MYPROJECT7_API ACombatManager : public AActor
@@ -16,12 +18,17 @@ public:
 	ACombatManager();
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) ACombatant* Combatant1;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite) ACombatant* Combatant2;
+	UFUNCTION(BlueprintImplementableEvent) void attackOccurred(ACombatant* attacker, bool hit, bool crit, int32 Damage);
+	UFUNCTION(BlueprintImplementableEvent) void characterDied(ACombatant* deadCharacter);
+	UFUNCTION(BlueprintCallable, Category = "CombatFunctions") void fight();
+	UFUNCTION(BlueprintCallable, Category = "CombatFunctions") void fightABunch(int32 fightCount);
+
+
 
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	UFUNCTION() void fight();
 	UFUNCTION() bool dieRoll(int32 odds);
 	UFUNCTION() void attack(ACombatant* attacker, ACombatant* defender);
 	UFUNCTION() bool checkIfDead();
