@@ -14,8 +14,8 @@ class MYPROJECT7_API ACombatManager : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ACombatManager();
-	UPROPERTY(EditAnywhere, BlueprintReadWrite) ACombatant Combatant1;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite) ACombatant Combatant2;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) ACombatant* Combatant1;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite) ACombatant* Combatant2;
 
 
 protected:
@@ -23,7 +23,7 @@ protected:
 	virtual void BeginPlay() override;
 	UFUNCTION() void fight();
 	UFUNCTION() bool dieRoll(int32 odds);
-	UFUNCTION() void attack(ACombatant attacker, ACombatant defender);
+	UFUNCTION() void attack(ACombatant* attacker, ACombatant* defender);
 	UFUNCTION() bool checkIfDead();
 
 public:	

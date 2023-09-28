@@ -43,7 +43,7 @@ void ACombatManager::fight()
 	}
 }
 
-void ACombatManager::attack(ACombatant attacker, ACombatant defender) 
+void ACombatManager::attack(ACombatant* attacker, ACombatant* defender) 
 {
 		if (!dieRoll(defender->getDodgeChance())) {
 			//you hit
